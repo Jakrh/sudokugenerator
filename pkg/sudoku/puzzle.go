@@ -1,7 +1,5 @@
 package sudoku
 
-import "math/rand/v2"
-
 func (s *Sudoku) isUniqueSolution() bool {
 	clonedSudoku := s.Clone()
 	count := 0
@@ -36,19 +34,32 @@ func (s *Sudoku) isUniqueSolution() bool {
 }
 
 func (s *Sudoku) removeNumbers(target uint) {
-	attempts := target
-	for attempts > 0 {
-		row := rand.IntN(boardSize)
-		col := rand.IntN(boardSize)
+	if target > maxRemovedNumbers {
+		panic("number of cells to remove exceeds the maximum allowed")
+	}
+
+	// Generate a random permutation of cell positions to determine which cells to remove
+	cells := s.randPerm(0, totalCells-1)
+	idx := 0
+
+	var removed uint
+	for removed < target && idx < totalCells {
+		position := cells[idx]
+		row := position / boardSize
+		col := position % boardSize
 		if s.board[row][col] == 0 {
+			idx++
 			continue
 		}
 		cellBackup := s.board[row][col]
 		s.board[row][col] = 0
 		if !s.isUniqueSolution() {
 			s.board[row][col] = cellBackup
+			idx++
+			continue
 		}
-		attempts--
+		idx++
+		removed++
 	}
 }
 
