@@ -15,6 +15,20 @@ func TestClone(t *testing.T) {
 	}
 }
 
+func TestGenerateFullBoard(t *testing.T) {
+	s := NewSudoku()
+	s.GenerateFullBoard()
+	if s.hasAnyEmptyCell() {
+		t.Errorf("the Sudoku board is not fullfilled:\n%s", s.PrintToString())
+	}
+	if !s.isValidSudoku() {
+		t.Errorf("invalid Sudoku board:\n%s", s.PrintToString())
+	}
+	if !s.isUniqueSolution() {
+		t.Errorf("this Sudoku board is not unique-solution:\n%s", s.PrintToString())
+	}
+}
+
 func TestIsValidSudoku(t *testing.T) {
 	tests := []struct {
 		description string
@@ -334,6 +348,13 @@ func TestPrintTo(t *testing.T) {
 				t.Errorf("PrintTo() output mismatch:\nExpected:\n%s\nActual:\n%s", tt.expected, actual)
 			}
 		})
+	}
+}
+
+func BenchmarkGenerateFullBoard(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		s := NewSudoku()
+		s.GenerateFullBoard()
 	}
 }
 

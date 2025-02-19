@@ -41,6 +41,10 @@ func (s *Sudoku) Clean() {
 	s.board = [boardSize][boardSize]uint8{}
 }
 
+func (s *Sudoku) GenerateFullBoard() {
+	s.Solve()
+}
+
 func (s *Sudoku) hasAnyEmptyCell() bool {
 	for i := 0; i < len(s.board); i++ {
 		for j := 0; j < len(s.board[i]); j++ {
