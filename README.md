@@ -1,9 +1,17 @@
 # Sudoku Generator
 
+`DIFFICULTY_LEVEL` ranges from 1 to 5, where 1 is easy and 5 is hard.
+
 Run
 
 ```bash
-go run sudokugenerator
+go run sudokugenerator DIFFICULTY_LEVEL
+```
+
+e.g.
+
+```bash
+go run sudokugenerator 2
 ```
 
 Random output
